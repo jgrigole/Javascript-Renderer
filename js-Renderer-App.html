@@ -3,23 +3,15 @@
 	<head>
 		<meta charset=utf-8>
 		<title>Javascript Renderer</title>
+		<link href="styles.css" rel="stylesheet">
 		<style>
 			body { margin: 0; }
-            div {
-                border: 2px solid;
-                height: 500px;
-                width: 500px;
-                resize: both;
-                overflow: auto;
-            }
 		</style>
 	</head>
-    <h1>Javascript Renderer</h1>
-    <div id="Div1">
+
 	<body onkeydown="isKeyPressed(event)">
 	<body onresize="updateCanvas(event)">
-    
-		
+		<h1>Javascript Renderer</h1>
 		<canvas id="myCanvas" width="1000" height="1000">
 			Your browser does not support the HTML5 canvas tag.
 		</canvas>
@@ -178,15 +170,10 @@
 			}
 
 			function updateCanvas(event) {
-                var ele = document.getElementById("Div1"); // Do not use
-                /* Below is the width of ele */
-                var eleWidth = ele.clientWidth;
-                var eleHeight = ele.clientHeight;
-                console.log("eleWidth: " + eleWidth );
 				var cn = document.getElementById("myCanvas");
       			var ctx = cn.getContext("2d");
-    			ctx.canvas.width = eleWidth;
-    			ctx.canvas.height = eleHeight;
+    			ctx.canvas.width = window.innerWidth;
+    			ctx.canvas.height = window.innerHeight;
     			ctx.fillStyle = "black";
       			ctx.fillRect(0, 0, cn.width, cn.height);
       			render(scene8, cn);
@@ -196,6 +183,5 @@
 
 
 		</script>
-        </div>
 	</body>
 </html>
