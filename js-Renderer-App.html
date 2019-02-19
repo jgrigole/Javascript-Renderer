@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset=utf-8>
+		<title>Javascript Renderer</title>
+		<style>
+			body { margin: 0; }
+            div {
+                border: 2px solid;
+                height: 500px;
+                width: 500px;
+                resize: both;
+                overflow: auto;
+            }
+		</style>
+	</head>
+    <h1>Javascript Renderer</h1>
+    <div id="Div1">
+	<body onkeydown="isKeyPressed(event)">
+	<body onresize="updateCanvas(event)">
+    
+		
+		<canvas id="myCanvas" width="1000" height="1000">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+		<script src="scene/theScene.js"></script>
+		<script src="pipeline/thePipeline.js"></script>
+		<script src="models/Cube.js"></script>
+		<script src="models/Axes2D.js"></script>
+		<script src="models/Circle.js"></script>
+		<script>
+
+			var scene8 = new Scene();
+			scene8.camera.projPerspective()
+
+			var axes_p = new Position(new Axes2D(-10,10,-10,10,-8,11,11));
+			axes_p.model.setRandomLineSegmentColors();
+			scene8.addPosition(axes_p);
+			axes_p.translate(0,0,-1);
+
+			var cube_p = new Position(new Cube());
+			cube_p.model.setColor("#A4ACCD");
+			cube_p.model.addColor("#FF0000");
+			cube_p.model.lineSegmentList[0].setColor2(1);
+			scene8.addPosition(cube_p);
+			scene8.positionList[1].translate(0, 0, -3);
+
+
+			var cn = document.getElementById("myCanvas");
+      		var ctx = cn.getContext("2d");
+      		ctx.canvas.width  = window.innerWidth;
+  			ctx.canvas.height = window.innerHeight;
+			ctx.fillStyle = "black";
+      		ctx.fillRect(0, 0, cn.width, cn.height);
+      		render(scene8, cn);
+
+			var xTranslation = 0;
+			var yTranslation = 0;
+			var zTranslation = 0;
+			var xRotation = 0;
+			var yRotation = 0;
+			var zRotation = 0;
+			var scale = 1;
+			var m = 1;
+
+	
+
+			function isKeyPressed(event) {
+				var x = event.charCode || event.keyCode;
+
+				switch(x) {
+					//w
+					case 87:
+					case 119:
+						yTranslation -= .1;
+
+						break;
+
+					//a
+					case 65:
+					case 97:
+						xTranslation -=.1;
+						break;
+
+					//s
+					case 83:
+					case 115:
+						yTranslation += .1;
+						break;
+
+					//d
+					case 68:
+					case 100:
+						xTranslation += .1;
+						break;
+
+					//z
+					case 90:
+					case 122:
+						zTranslation -= .1;
+						break;
+
+					//x
+					case 88:
+					case 120:
+						xRotation += 1;
+						break;
+
+					//y
+					case 89:
+					case 121:
+						yRotation += 1;
+						break;
+
+					//p
+					case 80:
+					case 112:
+						zRotation += 1;
+						break;
+
+					//c
+					case 67:
+					case 99:
+						scale *= 1.1;
+			        	break;
+
+			        //n
+			        case 78:
+			        case 110:
+			        	scene8.positionList[m].model.setRandomColor();
+			        	break;
+
+			        //v
+			        case 86:
+			        case 118:
+			        	scene8.positionList[m].model.setRandomVertexColors();
+			        	break;
+
+			        //l
+			        case 76:
+			        case 108:
+			        	scene8.positionList[m].model.setRandomLineSegmentColors();
+			        	break;
+
+			        //r
+			        case 82:
+			        case 114:
+			        	scene8.positionList[m].model.setRainbowLineSegmentColors();
+			        	break;
+
+					//m
+					case 77:
+					case 109:
+						m = (m + 1) % scene8.positionList.length;
+						break;
+
+
+				}
+
+				scene8.positionList[m].matrix2Identity();
+
+				scene8.positionList[m].translate(0, 0, -3);
+
+				scene8.positionList[m].translate(xTranslation, yTranslation, zTranslation);
+
+				scene8.positionList[m].rotateX(xRotation);
+
+				scene8.positionList[m].rotateY(yRotation);
+
+				scene8.positionList[m].rotateZ(zRotation);
+
+				scene8.positionList[m].scale_s(scale);
+
+				ctx.clearRect(0, 0, cn.width, cn.height);
+				ctx.fillStyle = "black";
+				ctx.fillRect(0, 0, cn.width, cn.height);
+				render(scene8, cn);
+			}
+
+			function updateCanvas(event) {
+                var ele = document.getElementById("Div1"); // Do not use
+                /* Below is the width of ele */
+                var eleWidth = ele.clientWidth;
+                var eleHeight = ele.clientHeight;
+                console.log("eleWidth: " + eleWidth );
+				var cn = document.getElementById("myCanvas");
+      			var ctx = cn.getContext("2d");
+    			ctx.canvas.width = eleWidth;
+    			ctx.canvas.height = eleHeight;
+    			ctx.fillStyle = "black";
+      			ctx.fillRect(0, 0, cn.width, cn.height);
+      			render(scene8, cn);
+    		}
+			
+
+
+
+		</script>
+        </div>
+	</body>
+</html>
