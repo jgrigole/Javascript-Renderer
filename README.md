@@ -1,5 +1,5 @@
 # Javascript-Renderer
-http://grigjoeletti.com/js-Renderer-App.html
+http://grigjoeletti.com/renderer/js-Renderer-App.html
 
 3D renderer built in JavaScript with an object oriented design.
 Senior design project for Computer Science major.
